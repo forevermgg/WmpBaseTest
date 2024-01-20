@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
-# SPDX-License-Identifier: BSD-3-Clause
-# Copyright Contributors to the OpenColorIO Project.
 
-# set -ex
+set -ex
 
 echo "第一个参数：$1"
 echo "第二个参数：$2"
@@ -17,10 +15,7 @@ ANDROID_TARGET_API=$3
 echo "ANDROID_TARGET_API: $ANDROID_TARGET_API"
 export ANDROID_NDK_HOME=$NDK
 
-TOOLCHAIN_PREFIX="${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/${HOST_PLATFORM}/bin"
 TOOLCHAIN=${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/${HOST_PLATFORM}
-
-export ZLIB_MINIMUM_ANDROID_API=26
 
 export WORKDIR=$(realpath ${WORKDIR:-$(pwd)})
 

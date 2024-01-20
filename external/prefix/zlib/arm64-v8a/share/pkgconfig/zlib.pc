@@ -1,0 +1,13 @@
+prefix=/Users/centforever/AndroidStudioProjects/WmpBaseTest/external/prefix/zlib/arm64-v8a
+exec_prefix=/Users/centforever/AndroidStudioProjects/WmpBaseTest/external/prefix/zlib/arm64-v8a
+libdir=/Users/centforever/AndroidStudioProjects/WmpBaseTest/external/prefix/zlib/arm64-v8a/lib
+sharedlibdir=/Users/centforever/AndroidStudioProjects/WmpBaseTest/external/prefix/zlib/arm64-v8a/lib
+includedir=/Users/centforever/AndroidStudioProjects/WmpBaseTest/external/prefix/zlib/arm64-v8a/include
+
+Name: zlib
+Description: zlib compression library
+Version: 1.3
+
+Requires:
+Libs: -L${libdir} -L${sharedlibdir} -lz
+Cflags: -I${includedir}
