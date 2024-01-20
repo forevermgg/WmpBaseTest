@@ -87,4 +87,5 @@ build_libexpat arm64-v8a
 build_libexpat x86
 build_libexpat x86_64
 
+cd $WORKDIR
 rm -rf libexpat
