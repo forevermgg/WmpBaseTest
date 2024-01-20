@@ -17,4 +17,5 @@ local.properties
 /external/libexpat/
 /external/libexpat/expat/build/
 /third_party/*
+/external/*
 /external/zlib/*
