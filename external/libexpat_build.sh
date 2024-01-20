@@ -70,11 +70,16 @@ function build_libexpat {
 
   make && make install
 
-  cd ../../
+  echo "Build OK expat, PWD in $(realpath $PWD)"
 
-  mkdir -p $PREFIX/$BUILD_ARCHS/lib/
-  mkdir -p $PREFIX/$BUILD_ARCHS/include/
-  cp -p $WORKDIR/libexpat/expat/build/libexpat.so $WORKDIR/prefix/expat/$BUILD_ARCHS/lib/
+  cd ../
+  # 必须得移除一下build，不然会编译失败
+  rm -rf build
+  cd ../
+
+  # mkdir -p $PREFIX/$BUILD_ARCHS/lib/
+  # mkdir -p $PREFIX/$BUILD_ARCHS/include/
+  # cp -p $WORKDIR/libexpat/expat/build/libexpat.so $WORKDIR/prefix/expat/$BUILD_ARCHS/lib/
 }
 
 build_libexpat armeabi-v7a
@@ -82,4 +87,4 @@ build_libexpat arm64-v8a
 build_libexpat x86
 build_libexpat x86_64
 
-rm -rf zlib
+rm -rf libexpat

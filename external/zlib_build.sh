@@ -2,11 +2,23 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright Contributors to the OpenColorIO Project.
 
-set -ex
+# set -ex
 
-NDK=${1:-$NDK}
+echo "第一个参数：$1"
+echo "第二个参数：$2"
+echo "第三个参数：$3"
 
+NDK=$1
+echo "NDK: $NDK"
+# darwin-x86_64
+HOST_PLATFORM=$2
+echo "HOST_PLATFORM: $HOST_PLATFORM"
+ANDROID_TARGET_API=$3
+echo "ANDROID_TARGET_API: $ANDROID_TARGET_API"
 export ANDROID_NDK_HOME=$NDK
+
+TOOLCHAIN_PREFIX="${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/${HOST_PLATFORM}/bin"
+TOOLCHAIN=${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/${HOST_PLATFORM}
 
 export ZLIB_MINIMUM_ANDROID_API=26
 
@@ -46,27 +58,63 @@ function build_zlib {
   mkdir -p $WORKDIR/zlib/build
   cd $WORKDIR/zlib
   cd $WORKDIR/zlib/build
-  ABI=$1
-  BUILD_ARCHS=$1
-  cmake -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK_HOME/build/cmake/android.toolchain.cmake \
-        -DCMAKE_BUILD_TYPE=Debug \
+  ANDROID_TARGET_ABI=$1
+
+  if [ "$ANDROID_TARGET_ABI" == "armeabi-v7a" ]
+  then
+      export TARGET=armv7a-linux-androideabi
+
+  elif [ "$ANDROID_TARGET_ABI" == "arm64-v8a" ]
+  then
+      export TARGET=aarch64-linux-android
+
+  elif [ "$ANDROID_TARGET_ABI" == "x86" ]
+  then
+      export TARGET=i686-linux-android
+
+  elif [ "$ANDROID_TARGET_ABI" == "x86_64" ]
+  then
+      export TARGET=x86_64-linux-android
+
+  else
+      echo "Unsupported target ABI: $ANDROID_TARGET_ABI"
+      exit 1
+  fi
+
+  export AR=$TOOLCHAIN/bin/llvm-ar
+  echo "AR: $AR"
+  export CC=$TOOLCHAIN/bin/${TARGET}${ANDROID_TARGET_API}-clang
+  echo "CC: $CC"
+  export AS=$CC
+  echo "AS: $AS"
+  export CXX=$TOOLCHAIN/bin/${TARGET}${ANDROID_TARGET_API}-clang++
+  echo "CXX: $CXX"
+  export LD=$TOOLCHAIN/bin/ld
+  echo "LD: $LD"
+  export RANLIB=$TOOLCHAIN/bin/llvm-ranlib
+  echo "RANLIB: $RANLIB"
+  export STRIP=$TOOLCHAIN/bin/llvm-strip
+  echo "STRIP: $STRIP"
+
+  export ANDROID_PLATFORM=android-${ANDROID_TARGET_API}
+  echo "ANDROID_PLATFORM: $ANDROID_PLATFORM"
+  # Fix symbol 'gz_intmax' failed error
+  # See https://github.com/madler/zlib/issues/856
+  # sed -i '18d' zlib.map
+
+  cmake -DCMAKE_TOOLCHAIN_FILE=${ANDROID_NDK_HOME}/build/cmake/android.toolchain.cmake \
         -DANDROID_ABI=$1 \
-        -DANDROID_NDK=$ANDROID_NDK_HOME \
-        -DCMAKE_ANDROID_ARCH_ABI=$1 \
-        -DCMAKE_ANDROID_NDK=$ANDROID_NDK_HOME \
-        -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
-        -DCMAKE_SYSTEM_NAME=Android \
-        -DANDROID_NATIVE_API_LEVEL=$ZLIB_MINIMUM_ANDROID_API \
-        -DCMAKE_INSTALL_PREFIX=$WORKDIR/prefix/zlib/$BUILD_ARCHS/lib \
-        -DANDROID_CPP_FEATURES="rtti exceptions" \
+        -DANDROID_PLATFORM=${ANDROID_PLATFORM} \
+        -DCMAKE_INSTALL_PREFIX=$WORKDIR/prefix/zlib/${ANDROID_TARGET_ABI} \
         ../.
+  make
+  make install
 
-  cmake --build . \
-        --target install \
-        --config Debug \
-        --parallel 2
-
-  cd ../..
+  echo "Build OK Zlib, PWD in $(realpath $PWD)"
+  cd ../
+  # 必须得移除一下build，不然会编译失败
+  rm -rf build
+  cd ../
 }
 
 
