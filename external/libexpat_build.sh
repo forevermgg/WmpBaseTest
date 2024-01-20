@@ -56,12 +56,19 @@ function build_libexpat {
         -DCMAKE_SYSTEM_NAME=Android \
         -DANDROID_NATIVE_API_LEVEL=$EXPAT_MINIMUM_ANDROID_API \
         -DCMAKE_INSTALL_PREFIX=$PREFIX/$1 \
+        -DANDROID_STL=c++_shared \
         -DEXPAT_BUILD_DOCS=OFF \
         -DEXPAT_BUILD_EXAMPLES=OFF \
         -DEXPAT_BUILD_TESTS=OFF \
         -DEXPAT_BUILD_TOOLS=OFF \
-        -GNinja ..
-  ninja
+        ..
+
+  cmake --build . \
+        --target install \
+        --config Debug \
+        --parallel 2
+
+  make && make install
 
   cd ../../
 
@@ -74,3 +81,5 @@ build_libexpat armeabi-v7a
 build_libexpat arm64-v8a
 build_libexpat x86
 build_libexpat x86_64
+
+rm -rf zlib
