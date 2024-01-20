@@ -55,18 +55,16 @@ function build_zlib {
         -DCMAKE_ANDROID_ARCH_ABI=$1 \
         -DCMAKE_ANDROID_NDK=$ANDROID_NDK_HOME \
         -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
+        -DCMAKE_SYSTEM_NAME=Android \
         -DANDROID_NATIVE_API_LEVEL=$ZLIB_MINIMUM_ANDROID_API \
         -DCMAKE_INSTALL_PREFIX=$WORKDIR/prefix/zlib/$BUILD_ARCHS/lib \
         -DANDROID_CPP_FEATURES="rtti exceptions" \
         ../.
 
-  # make
-  # make install
-
   cmake --build . \
-          --target install \
-          --config Debug \
-          --parallel 2
+        --target install \
+        --config Debug \
+        --parallel 2
 
   cd ../..
 }
