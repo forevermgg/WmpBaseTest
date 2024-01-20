@@ -11,27 +11,61 @@ cmake_minimum_required(VERSION 3.22.1)
 # build script scope).
 project("flatbuffers")
 
-# Creates and names a library, sets it as either STATIC
-# or SHARED, and provides the relative paths to its source code.
-# You can define multiple libraries, and CMake builds them for you.
-# Gradle automatically packages shared libraries with your APK.
-#
-# In this top level CMakeLists.txt, ${CMAKE_PROJECT_NAME} is used to define
-# the target library name; in the sub-module's CMakeLists.txt, ${PROJECT_NAME}
-# is preferred for the same purpose.
-#
-# In order to load a library into your app from Java/Kotlin, you must call
-# System.loadLibrary() and pass the name of the library defined here;
-# for GameActivity/NativeActivity derived applications, the same library name must be
-# used in the AndroidManifest.xml file.
-add_library(${CMAKE_PROJECT_NAME} SHARED
-        # List C/C++ source files with relative paths to this CMakeLists.txt.
-        flatbuffers.cpp)
 
-# Specifies libraries CMake should link to your target library. You
-# can link libraries from various origins, such as libraries defined in this
-# build script, prebuilt third-party libraries, or Android system libraries.
-target_link_libraries(${CMAKE_PROJECT_NAME}
-        # List libraries link to the target library
-        android
-        log)
+set(FLATBUFFERS_SRC_INCLUDE ${CMAKE_CURRENT_SOURCE_DIR}/../../../../third_party/flatbuffers/include)
+message("FLATBUFFERS_SRC_INCLUDE ${FLATBUFFERS_SRC_INCLUDE}")
+include_directories(${FLATBUFFERS_SRC_INCLUDE})
+
+message("CMAKE_CURRENT_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}")
+set(FLATBUFFERS_SRC ${CMAKE_CURRENT_SOURCE_DIR}/../../../../third_party/flatbuffers)
+message("FLATBUFFERS_SRC ${FLATBUFFERS_SRC}")
+
+include_directories(${FLATBUFFERS_SRC}/include)
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -fexceptions -Wall -DFLATBUFFERS_TRACK_VERIFIER_BUFFER_SIZE")
+
+# Certain platforms such as ARM do not use signed chars by default
+# which causes issues with certain bounds checks.
+set(CMAKE_CXX_FLAGS
+        "${CMAKE_CXX_FLAGS} -fsigned-char")
+
+set(FlatBuffers_Library_SRCS
+        ${FLATBUFFERS_SRC}/include/flatbuffers/allocator.h
+        ${FLATBUFFERS_SRC}/include/flatbuffers/array.h
+        ${FLATBUFFERS_SRC}/include/flatbuffers/base.h
+        ${FLATBUFFERS_SRC}/include/flatbuffers/buffer.h
+        ${FLATBUFFERS_SRC}/include/flatbuffers/buffer_ref.h
+        ${FLATBUFFERS_SRC}/include/flatbuffers/default_allocator.h
+        ${FLATBUFFERS_SRC}/include/flatbuffers/detached_buffer.h
+        ${FLATBUFFERS_SRC}/include/flatbuffers/flatbuffer_builder.h
+        ${FLATBUFFERS_SRC}/include/flatbuffers/flatbuffers.h
+        ${FLATBUFFERS_SRC}/include/flatbuffers/flexbuffers.h
+        ${FLATBUFFERS_SRC}/include/flatbuffers/flex_flat_util.h
+        ${FLATBUFFERS_SRC}/include/flatbuffers/hash.h
+        ${FLATBUFFERS_SRC}/include/flatbuffers/idl.h
+        ${FLATBUFFERS_SRC}/include/flatbuffers/minireflect.h
+        ${FLATBUFFERS_SRC}/include/flatbuffers/reflection.h
+        ${FLATBUFFERS_SRC}/include/flatbuffers/reflection_generated.h
+        ${FLATBUFFERS_SRC}/include/flatbuffers/registry.h
+        ${FLATBUFFERS_SRC}/include/flatbuffers/stl_emulation.h
+        ${FLATBUFFERS_SRC}/include/flatbuffers/string.h
+        ${FLATBUFFERS_SRC}/include/flatbuffers/struct.h
+        ${FLATBUFFERS_SRC}/include/flatbuffers/table.h
+        ${FLATBUFFERS_SRC}/include/flatbuffers/util.h
+        ${FLATBUFFERS_SRC}/include/flatbuffers/vector.h
+        ${FLATBUFFERS_SRC}/include/flatbuffers/vector_downward.h
+        ${FLATBUFFERS_SRC}/include/flatbuffers/verifier.h
+        ${FLATBUFFERS_SRC}/src/idl_parser.cpp
+        ${FLATBUFFERS_SRC}/src/idl_gen_text.cpp
+        ${FLATBUFFERS_SRC}/src/reflection.cpp
+        ${FLATBUFFERS_SRC}/src/util.cpp
+        ${FLATBUFFERS_SRC}/src/idl_gen_fbs.cpp
+        ${FLATBUFFERS_SRC}/src/code_generators.cpp
+        )
+
+add_library( # Sets the name of the library.
+        flatbuffers SHARED
+
+        ${FlatBuffers_Library_SRCS}
+        ${Generated_SRCS}
+        )

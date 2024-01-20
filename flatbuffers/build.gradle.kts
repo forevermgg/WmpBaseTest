@@ -1,14 +1,20 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    id("maven-publish")
 }
+
+
+apply(
+    "flatbuffers.gradle"
+)
 
 android {
     namespace = "com.mgg.flatbuffers"
     compileSdk = 34
 
     defaultConfig {
-        minSdk = 34
+        minSdk = 26
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -18,6 +24,8 @@ android {
             }
         }
     }
+
+    println("project.path:" + project.rootDir)
 
     buildTypes {
         release {
@@ -41,7 +49,37 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
+    // Enable generation of Prefab packages and include them in the library's AAR.
+    buildFeatures {
+        prefab = true
+        prefabPublishing = true
+        buildConfig = true
+    }
+
+    prefab {
+        create("flatbuffers") {
+            headers = project.rootDir.path + "/third_party/flatbuffers/include"
+            name = "flatbuffers"
+        }
+    }
+
+    publishing {
+        multipleVariants {
+            withSourcesJar()
+            includeBuildTypeValues("debug", "release")
+        }
+    }
 }
+
+kotlin {
+    jvmToolchain(17)
+    explicitApi()
+}
+
+apply(
+    "publish.gradle"
+)
 
 dependencies {
 

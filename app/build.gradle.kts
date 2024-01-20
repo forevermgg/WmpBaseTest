@@ -5,11 +5,10 @@ plugins {
 
 android {
     namespace = "com.mgg.base"
-    compileSdk = 33
-
+    compileSdk = 34
     defaultConfig {
         applicationId = "com.mgg.base"
-        minSdk = 30
+        minSdk = 26
         targetSdk = 33
         versionCode = 1
         versionName = "1.0"
