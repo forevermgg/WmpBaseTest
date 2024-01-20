@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
 import com.mgg.base.databinding.ActivityMainBinding
+import com.mgg.varinat.NativeVariantLib
 
 class MainActivity : AppCompatActivity() {
 
@@ -18,7 +19,7 @@ class MainActivity : AppCompatActivity() {
         // Example of a call to a native method
         binding.sampleText.text = stringFromJNI()
 
-        NativeBaseLib().getVersion()
+        NativeVariantLib.Companion.toString()
     }
 
     /**

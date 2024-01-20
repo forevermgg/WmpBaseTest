@@ -14,6 +14,7 @@ android {
         consumerProguardFiles("consumer-rules.pro")
         externalNativeBuild {
             cmake {
+                arguments += "-DANDROID_STL=c++_shared"
                 cppFlags("-std=c++17")
             }
         }
@@ -40,6 +41,14 @@ android {
     }
     kotlinOptions {
         jvmTarget = "1.8"
+    }
+    buildFeatures.prefab = true
+
+    prefab {
+        create("variant") {
+            headers = "src/main/cpp/include/"
+            name = "variant"
+        }
     }
 }
 

@@ -13,12 +13,3 @@ plugins {
 
 val sonatypeUsername = findProperty("SONATYPE_USERNAME")?.toString()
 val sonatypePassword = findProperty("SONATYPE_PASSWORD")?.toString()
-
-nexusPublishing {
-    repositories {
-        sonatype {
-            username.set(sonatypeUsername)
-            password.set(sonatypePassword)
-        }
-    }
-}

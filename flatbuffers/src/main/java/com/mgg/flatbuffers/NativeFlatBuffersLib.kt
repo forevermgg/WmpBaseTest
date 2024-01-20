@@ -1,8 +1,8 @@
 package com.mgg.flatbuffers
 
-class NativeFlatBuffersLib {
+public class NativeFlatBuffersLib {
 
-    companion object {
+    public companion object {
         // Used to load the 'flatbuffers' library on application startup.
         init {
             System.loadLibrary("flatbuffers")
