@@ -99,6 +99,7 @@ function build_zlib {
 
   cmake -DCMAKE_TOOLCHAIN_FILE=${ANDROID_NDK_HOME}/build/cmake/android.toolchain.cmake \
         -DANDROID_ABI=$1 \
+        -DCMAKE_BUILD_TYPE=Debug \
         -DANDROID_PLATFORM=${ANDROID_PLATFORM} \
         -DCMAKE_INSTALL_PREFIX=$WORKDIR/prefix/zlib/${ANDROID_TARGET_ABI} \
         ../.

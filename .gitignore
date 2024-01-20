@@ -19,3 +19,4 @@ local.properties
 /third_party/*
 /external/libexpat/*
 /external/zlib/*
+/external/jansson/*
