@@ -20,3 +20,4 @@ local.properties
 /external/libexpat/*
 /external/zlib/*
 /external/jansson/*
+/libyuv/.idea/
