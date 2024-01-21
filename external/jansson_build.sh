@@ -64,7 +64,7 @@ function build_jansson {
   mkdir -p build
   cd build
   cmake -DCMAKE_TOOLCHAIN_FILE=${ANDROID_NDK_HOME}/build/cmake/android.toolchain.cmake \
-        -DANDROID_ABI=$1 \
+        -DANDROID_ABI=${ANDROID_TARGET_ABI} \
         -DANDROID_PLATFORM=${ANDROID_PLATFORM} \
         -DCMAKE_BUILD_TYPE=Debug \
         -DJANSSON_BUILD_SHARED_LIBS=ON \
@@ -84,4 +84,4 @@ build_jansson armeabi-v7a
 build_jansson arm64-v8a
 build_jansson x86
 build_jansson x86_64
- rm -rf jansson
+rm -rf jansson
