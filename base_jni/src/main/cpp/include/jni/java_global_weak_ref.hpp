@@ -6,7 +6,7 @@
 
 #include <functional>
 
-#include "JNI_UTILs.hpp"
+#include "jni_utils.hpp"
 
 namespace FOREVER {
 namespace JNI_UTIL {
