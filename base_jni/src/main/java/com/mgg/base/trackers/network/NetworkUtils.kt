@@ -11,6 +11,7 @@ import android.net.ConnectivityManager
 open class NetworkUtils(private val context: Context) {
 
     @SuppressLint("MissingPermission")
+    @Suppress("DEPRECATION")
     open fun hasNetworkConnection(): Boolean {
         val connectivityManager =
             context.getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -18,6 +19,7 @@ open class NetworkUtils(private val context: Context) {
         return activeNetworkInfo != null && activeNetworkInfo.isConnected
     }
 
+    @Suppress("DEPRECATION")
     fun hasNetwork(): Boolean {
         val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
