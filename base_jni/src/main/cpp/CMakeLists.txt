@@ -53,9 +53,11 @@ add_library(${CMAKE_PROJECT_NAME} SHARED
         src/network/android_network_sharing_platform.cc
         src/network/connectivity_manager_impl.cc
         src/network/context_impl.cc
+        src/path/Path.cpp
         src/string/string_conversion.cc
         src/thread/thread_local.cc
         src/thread/ThreadUtils.cpp
+        src/utils/architecture.cpp
         src/utils/CountDownLatch.cpp
         src/utils/CyclicBarrier.cpp)
 
