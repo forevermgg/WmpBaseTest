@@ -15,7 +15,35 @@
 #include <fcntl.h>
 #include <sys/system_properties.h>
 #include <mutex>
+#include <android/log.h>
 
+#define LOG_ERR(...) \
+  __android_log_print(ANDROID_LOG_ERROR, "ANDROID_UTILS", __VA_ARGS__);
+
+#define LOG_WARN(...) \
+  __android_log_print(ANDROID_LOG_WARN, "ANDROID_UTILS", __VA_ARGS__);
+
+
+#define GET_PROP(name, trans)                            \
+  do {                                                   \
+    char _v[PROP_VALUE_MAX] = {0};                       \
+    if (__system_property_get(name, _v) == 0) {          \
+      return false;                                      \
+    }                                                    \
+    trans;                                               \
+  } while (0)
+
+#define GET_STRING_PROP(n, t) GET_PROP(n, t = _v)
+#define GET_INT_PROP(n, t) GET_PROP(n, t = atoi(_v))
+#define GET_STRING_LIST_PROP(n, t)      \
+  do {                                  \
+    std::string _l, _t;                 \
+    GET_STRING_PROP(n, _l);             \
+    std::istringstream _s(_l);          \
+    while (std::getline(_s, _t, ',')) { \
+      t.push_back(_t);                  \
+    }                                   \
+  } while (0)
 
 namespace FOREVER {
 uint32_t sApiLevel = 0;
@@ -89,6 +117,20 @@ static int device_api_level() {
   if (s_api_level < 0)
     s_api_level = system_property_get_int("ro.build.version.sdk");
   return s_api_level;
+}
+
+static std::string current_abi() {
+#if defined(__arm__)
+  return "armeabi-v7a";
+#elif defined(__aarch64__)
+  return "arm64-v8a";
+#elif defined(__i686__)
+  return "x86";
+#elif defined(__x86_64__)
+  return "x86_64";
+#else
+  return "Unknown ABI";
+#endif
 }
 
 }  // namespace FOREVER
