@@ -33,6 +33,7 @@ add_library(${CMAKE_PROJECT_NAME} SHARED
         library_loader.cc
 
         src/base32/base32.cc
+        src/base64/base64.cc
         src/jni/java_class.cpp
         src/jni/java_class_global_def.cpp
         src/jni/java_exception_thrower.cpp
