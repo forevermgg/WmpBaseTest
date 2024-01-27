@@ -32,6 +32,7 @@ add_library(${CMAKE_PROJECT_NAME} SHARED
         base.cpp
         library_loader.cc
 
+        src/android/android_utils.cc
         src/base32/base32.cc
         src/base64/base64.cc
         src/jni/java_class.cpp
