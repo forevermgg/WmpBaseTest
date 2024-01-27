@@ -1,7 +1,6 @@
 package com.mgg.base.trackers.network
 
 import android.app.Application
-import android.content.Context
 import androidx.annotation.Keep
 import com.mgg.base.trackers.ConstraintListener
 import com.mgg.base.trackers.ConstraintTracker

@@ -2,6 +2,7 @@ package com.mgg.base.trackers.network
 
 import android.content.Context
 import android.os.Build
+import androidx.arch.core.executor.TaskExecutor
 import com.mgg.base.trackers.ConstraintTracker
 
 /**
@@ -21,7 +22,7 @@ import com.mgg.base.trackers.ConstraintTracker
  */
 fun NetworkStateTracker(
     context: Context,
-    taskExecutor: ArchTaskExecutor
+    taskExecutor: TaskExecutor
 ): ConstraintTracker<NetworkState> {
     // Based on requiring ConnectivityManager#registerDefaultNetworkCallback - added in API 24.
     return if (Build.VERSION.SDK_INT >= 24) {
