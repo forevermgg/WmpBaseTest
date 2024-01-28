@@ -10,6 +10,8 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
+    private var testNativeBaseLib = NativeBaseLib()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -20,6 +22,13 @@ class MainActivity : AppCompatActivity() {
         binding.sampleText.text = stringFromJNI()
 
         NativeVariantLib.Companion.toString()
+
+        testNativeBaseLib.register()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        testNativeBaseLib.unregister()
     }
 
     /**
