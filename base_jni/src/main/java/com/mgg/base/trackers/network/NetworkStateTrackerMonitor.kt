@@ -28,7 +28,8 @@ class NetworkStateTrackerMonitor constructor(application: Application) : Constra
     }
 
     override fun onConstraintChanged(newValue: NetworkState) {
+        onConstraintChanged(1, newValue.isConnected)
     }
 
-    external fun onConstraintChanged(isConnected: Boolean)
+    private external fun onConstraintChanged(connectType: Int, isConnected: Boolean)
 }
