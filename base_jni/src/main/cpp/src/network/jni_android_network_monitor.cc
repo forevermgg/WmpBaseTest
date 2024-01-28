@@ -138,6 +138,6 @@ JNIAndroidNetworkMonitor::GetCurrentConnection() {
 extern "C" JNIEXPORT void JNICALL
 Java_com_mgg_base_trackers_network_NetworkStateTrackerMonitor_onConstraintChanged(
     JNIEnv* env, jobject thiz, jint connection_type, jboolean is_connected) {
-  /*FOREVER::JNIAndroidNetworkMonitor::GetInstance()->NotifyNetworkChange(
-      FOREVER::NetworkMonitor::ConnectionType::kUnknown, is_connected);*/
+  FOREVER::JNIAndroidNetworkMonitor::GetInstance()->NotifyNetworkChange(
+      FOREVER::NetworkMonitor::ConnectionType::kUnknown, is_connected);
 }
