@@ -1,11 +1,12 @@
 
 #include <utils/architecture.h>
+
 #include "utils/compiler.h"
 
 #if defined(__unix__) || (defined(__APPLE__) && defined(__MACH__))
-#   include <unistd.h>
+#include <unistd.h>
 #elif defined(WIN32)
-#   include <windows.h>
+#include <windows.h>
 #endif
 
 namespace FOREVER::ARCH {
@@ -18,8 +19,8 @@ size_t getPageSize() noexcept {
   GetSystemInfo(&sysInfo);
   return size_t(sysInfo.dwPageSize);
 #else
- return 4096u;
+  return 4096u;
 #endif
 }
 
-} // namespace FOREVER::ARCH
+}  // namespace FOREVER::ARCH

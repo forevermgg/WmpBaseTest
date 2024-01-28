@@ -18,10 +18,6 @@ static int  system_property_get_int(const char* name);
 static int device_api_level();
 
 static std::string current_abi();
-
-static constexpr const char *kManufacturerSystemPropertyName = "ro.product.manufacturer";
-static constexpr const char *kModelSystemPropertyName        = "ro.product.model";
-static constexpr const char *kSDKSystemPropertyName          = "ro.build.version.sdk";
 }  // namespace FOREVER
 
 #endif  // ANDROID_UTILS_H_

@@ -1,21 +1,23 @@
 
 #include "android/android_utils.h"
-#include <string>
+
+#include <android/log.h>
 #include <dlfcn.h>
 #include <errno.h>
+#include <fcntl.h>
 #include <pthread.h>
-#include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
-#include <sys/mman.h>
-#include <sys/types.h>
-#include <sys/stat.h>
 #include <sys/ioctl.h>
-#include <sys/stat.h>  /* for fdstat() */
-#include <fcntl.h>
+#include <sys/mman.h>
+#include <sys/stat.h>
+#include <sys/stat.h> /* for fdstat() */
 #include <sys/system_properties.h>
+#include <sys/types.h>
+#include <unistd.h>
+
 #include <mutex>
-#include <android/log.h>
+#include <string>
 
 #define LOG_ERR(...) \
   __android_log_print(ANDROID_LOG_ERROR, "ANDROID_UTILS", __VA_ARGS__);
@@ -23,14 +25,13 @@
 #define LOG_WARN(...) \
   __android_log_print(ANDROID_LOG_WARN, "ANDROID_UTILS", __VA_ARGS__);
 
-
-#define GET_PROP(name, trans)                            \
-  do {                                                   \
-    char _v[PROP_VALUE_MAX] = {0};                       \
-    if (__system_property_get(name, _v) == 0) {          \
-      return false;                                      \
-    }                                                    \
-    trans;                                               \
+#define GET_PROP(name, trans)                   \
+  do {                                          \
+    char _v[PROP_VALUE_MAX] = {0};              \
+    if (__system_property_get(name, _v) == 0) { \
+      return false;                             \
+    }                                           \
+    trans;                                      \
   } while (0)
 
 #define GET_STRING_PROP(n, t) GET_PROP(n, t = _v)
@@ -51,14 +52,12 @@ std::once_flag sApiLevelOnceFlag;
 
 static int api_level() {
   std::call_once(sApiLevelOnceFlag, []() {
-      char sdkVersion[PROP_VALUE_MAX];
-      __system_property_get("ro.build.version.sdk", sdkVersion);
-            sApiLevel = atoi(sdkVersion);
-    }
-  );
+    char sdkVersion[PROP_VALUE_MAX];
+    __system_property_get("ro.build.version.sdk", sdkVersion);
+    sApiLevel = atoi(sdkVersion);
+  });
   return sApiLevel;
 }
-
 
 static std::string GetAndroidProp(const char* name) {
   std::string ret;
@@ -86,14 +85,17 @@ static std::string GetAndroidProp(const char* name) {
 }
 
 /* Weak symbol import */
-void __system_property_read_callback(
-     const prop_info* info,
-     void (*callback)(void* cookie, const char* name, const char* value, uint32_t serial),
-     void* cookie) __attribute__((weak));
+void __system_property_read_callback(const prop_info* info,
+                                     void (*callback)(void* cookie,
+                                                      const char* name,
+                                                      const char* value,
+                                                      uint32_t serial),
+                                     void* cookie) __attribute__((weak));
 
 /* Callback used with __system_property_read_callback. */
-static void prop_read_int(void* cookie, const char* name, const char* value, uint32_t serial) {
-  *(int *)cookie = atoi(value);
+static void prop_read_int(void* cookie, const char* name, const char* value,
+                          uint32_t serial) {
+  *(int*)cookie = atoi(value);
   (void)name;
   (void)serial;
 }
@@ -102,12 +104,10 @@ static int system_property_get_int(const char* name) {
   int result = 0;
   if (__system_property_read_callback) {
     const prop_info* info = __system_property_find(name);
-    if (info)
-      __system_property_read_callback(info, &prop_read_int, &result);
+    if (info) __system_property_read_callback(info, &prop_read_int, &result);
   } else {
     char value[PROP_VALUE_MAX] = {};
-    if (__system_property_get(name, value) >= 1)
-      result = atoi(value);
+    if (__system_property_get(name, value) >= 1) result = atoi(value);
   }
   return result;
 }
@@ -131,33 +131,5 @@ static std::string current_abi() {
 #else
   return "Unknown ABI";
 #endif
-}
-
-std::string HardwareModelName() {
-  char device_model_str[PROP_VALUE_MAX];
-  __system_property_get("ro.product.model", device_model_str);
-  return std::string(device_model_str);
-}
-
-std::string OperatingSystemName() {
-   return "Android";
-}
-
-std::string GetAndroidBuildCodename() {
-  char os_version_codename_str[PROP_VALUE_MAX];
-  __system_property_get("ro.build.version.codename", os_version_codename_str);
-  return std::string(os_version_codename_str);
-}
-
-std::string GetAndroidBuildID() {
-  char os_build_id_str[PROP_VALUE_MAX];
-  __system_property_get("ro.build.id", os_build_id_str);
-  return std::string(os_build_id_str);
-}
-
-std::string GetAndroidHardwareEGL() {
-  char os_hardware_egl_str[PROP_VALUE_MAX];
-  __system_property_get("ro.hardware.egl", os_hardware_egl_str);
-  return std::string(os_hardware_egl_str);
 }
 }  // namespace FOREVER
