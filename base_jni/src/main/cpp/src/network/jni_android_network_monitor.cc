@@ -110,16 +110,28 @@ void JNIAndroidNetworkMonitor::NotifyNetworkChange(
 }
 
 bool JNIAndroidNetworkMonitor::IsLanConnected() {
-  // 实现连接到AP的逻辑
-  // ...
-  return true;
+  auto env = FOREVER::JNI_UTIL::JniUtils::get_env();
+  if (env->ExceptionCheck()) {
+    return false;
+  }
+  if (m_android_network_state_tracker_monitor_weak_ref_ &&
+      android_network_state_tracker_monitor_current_state_) {
+    m_android_network_state_tracker_monitor_weak_ref_.call_with_local_ref(
+        env, [&](JNIEnv*, jobject obj) {
+          return env->CallBooleanMethod(
+              obj, android_network_state_tracker_monitor_current_state_);
+        });
+  }
+  return false;
 }
 
 NetworkMonitor::ConnectionType
 JNIAndroidNetworkMonitor::GetCurrentConnection() {
-  // 实现获取当前网络连接类型的逻辑
-  // ...
-  return NetworkMonitor::ConnectionType::kEthernet;
+  auto env = FOREVER::JNI_UTIL::JniUtils::get_env();
+  if (env->ExceptionCheck()) {
+    return NetworkMonitor::ConnectionType::kUnknown;
+  }
+  return NetworkMonitor::ConnectionType::kUnknown;
 }
 }  // namespace FOREVER
 
