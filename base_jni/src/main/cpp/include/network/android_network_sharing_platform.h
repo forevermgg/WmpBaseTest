@@ -8,7 +8,7 @@
 #include "android_network_monitor.h"
 
 namespace FOREVER {
-class AndroidNetWorkSharingPlatform : SHARING::NetWorkSharingPlatform {
+class AndroidNetWorkSharingPlatform : public SHARING::NetWorkSharingPlatform {
  public:
    AndroidNetWorkSharingPlatform();
    ~AndroidNetWorkSharingPlatform() override;
