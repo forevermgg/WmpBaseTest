@@ -9,6 +9,10 @@
 #include "fake_network_monitor.h"
 #include "memory/singleton_stdmutex.h"
 #include "network_monitor.h"
+#include "jni/jni_utils.hpp"
+#include "jni/java_method.hpp"
+#include "jni/java_class.hpp"
+#include "jni/java_global_weak_ref.hpp"
 
 namespace FOREVER {
 
@@ -24,8 +28,14 @@ class JNIAndroidNetworkMonitor : public MEMORY::Singleton<JNIAndroidNetworkMonit
 
    void NotifyNetworkChange(NetworkMonitor::ConnectionType connectionType, bool is_lan_connected);
 
+   bool IsLanConnected();
+
+   // Returns the type of connection used currently to access the internet
+   NetworkMonitor::ConnectionType GetCurrentConnection();
+
 private:
    std::function<void(NetworkMonitor::ConnectionType, bool)> callback_;
+   JNI_UTIL::JavaGlobalWeakRef m_android_network_state_tracker_monitor_weak_ref;
 };
 }  // namespace FOREVER
 

@@ -5,11 +5,11 @@ AndroidNetWorkSharingPlatform::AndroidNetWorkSharingPlatform() {}
 
 AndroidNetWorkSharingPlatform::~AndroidNetWorkSharingPlatform() {}
 
-
 std::unique_ptr<NetworkMonitor>
 AndroidNetWorkSharingPlatform::CreateNetworkMonitor(
-        std::function<void(FOREVER::NetworkMonitor::ConnectionType, bool)> callback) {
+    std::function<void(FOREVER::NetworkMonitor::ConnectionType, bool)>
+        callback) {
   return std::make_unique<AndroidNetworkMonitor>(std::move(callback));
 }
 
-} // namespace FOREVER
+}  // namespace FOREVER

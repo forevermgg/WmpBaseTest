@@ -11,8 +11,10 @@
 
 namespace FOREVER {
 using FOREVER::SHARING::NetWorkSharingPlatform;
-ContextImpl::ContextImpl(NetWorkSharingPlatform& platform):platform_(platform),
-connectivity_manager_(std::make_unique<ConnectivityManagerImpl>(platform_)) {}
+ContextImpl::ContextImpl(NetWorkSharingPlatform& platform)
+    : platform_(platform),
+      connectivity_manager_(
+          std::make_unique<ConnectivityManagerImpl>(platform_)) {}
 
 ConnectivityManager* ContextImpl::GetConnectivityManager() const {
   return connectivity_manager_.get();

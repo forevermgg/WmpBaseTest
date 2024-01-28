@@ -5,11 +5,10 @@
 #include <memory>
 #include <string>
 #include <utility>
-#include "log/log_settings.h"
+
 #include "log/log_level.h"
+#include "log/log_settings.h"
 #include "log/logging.h"
-
-
 #include "network/connectivity_manager.h"
 
 namespace FOREVER {
@@ -40,14 +39,15 @@ std::string GetConnectionTypeString(ConnectionType connection_type) {
 
 }  // namespace
 
-ConnectivityManagerImpl::ConnectivityManagerImpl(NetWorkSharingPlatform& platform) {
+ConnectivityManagerImpl::ConnectivityManagerImpl(
+    NetWorkSharingPlatform& platform) {
   network_monitor_ = platform.CreateNetworkMonitor(
       [this](NetworkMonitor::ConnectionType connection_type,
              bool is_lan_connected) {
         ConnectionType new_connection_type =
             static_cast<ConnectionType>(connection_type);
         FOREVER_LOG(ERROR) << ": New connection type:"
-                   << GetConnectionTypeString(new_connection_type);
+                           << GetConnectionTypeString(new_connection_type);
         for (auto& listener : listeners_) {
           listener.second(new_connection_type, is_lan_connected);
         }

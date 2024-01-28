@@ -1,8 +1,9 @@
 
 #include "android/build_info.h"
 
-#include <string>
 #include <sys/system_properties.h>
+
+#include <string>
 
 namespace FOREVER {
 BuildInfo::BuildInfo() {}

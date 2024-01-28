@@ -3,6 +3,7 @@
 #define ANDROID_UTILS_H_
 
 #include <string>
+#include <jni.h>
 
 namespace FOREVER {
 
@@ -12,8 +13,7 @@ static int api_level();
 // the same as a property with an empty value for this API).
 static std::string GetAndroidProp(const char* name);
 
-
-static int  system_property_get_int(const char* name);
+static int system_property_get_int(const char* name);
 
 static int device_api_level();
 

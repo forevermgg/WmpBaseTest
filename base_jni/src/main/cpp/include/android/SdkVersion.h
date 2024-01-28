@@ -23,4 +23,4 @@ enum SdkVersion {
   SDK_VERSION_T = 33,
   SDK_VERSION_U = 34,
 };
-} // namespace FOREVER::ANDROID
+}  // namespace FOREVER::ANDROID
