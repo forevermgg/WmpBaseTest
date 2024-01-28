@@ -31,6 +31,7 @@ add_library(${CMAKE_PROJECT_NAME} SHARED
         # List C/C++ source files with relative paths to this CMakeLists.txt.
         base.cpp
         library_loader.cc
+        TestData.cpp
 
         src/android/android_utils.cc
         src/android/build_info.cc
