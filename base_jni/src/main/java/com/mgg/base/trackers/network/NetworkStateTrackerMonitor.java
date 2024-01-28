@@ -10,7 +10,7 @@ import com.mgg.base.trackers.ConstraintTracker;
 public class NetworkStateTrackerMonitor implements ConstraintListener<NetworkState> {
     private Application mApplication;
 
-    private ConstraintTracker<NetworkState> networkStateTracker;
+    private final ConstraintTracker<NetworkState> networkStateTracker;
     public NetworkStateTrackerMonitor(Application application) {
         mApplication = application;
         networkStateTracker = NetworkStateTracker(application, ArchTaskExecutor.getInstance());
@@ -24,14 +24,12 @@ public class NetworkStateTrackerMonitor implements ConstraintListener<NetworkSta
         return networkStateTracker.getState().isConnected();
     }
 
-    public Boolean addListener()  {
+    public void addListener()  {
         networkStateTracker.addListener(this);
-        return true;
     }
 
-    public Boolean removeListener() {
+    public void removeListener() {
         networkStateTracker.removeListener(this);
-        return true;
     }
 
     public void onConstraintChanged(NetworkState newValue) {

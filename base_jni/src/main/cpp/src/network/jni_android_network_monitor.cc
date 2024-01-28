@@ -21,26 +21,26 @@ JNIAndroidNetworkMonitor::JNIAndroidNetworkMonitor() {
   }
 
   static JNI_UTIL::JavaMethod android_network_state_tracker_monitor_constructor(
-      env, get_android_network_state_tracker_monitor(env), "init",
+      env, get_android_network_state_tracker_monitor(env), "<init>",
       "(Landroid/app/Application;)V", false);
   android_network_state_tracker_monitor_constructor_ =
       android_network_state_tracker_monitor_constructor;
 
   JNI_UTIL::JavaMethod android_network_state_tracker_monitor_current_state(
       env, get_android_network_state_tracker_monitor(env), "isLanConnected",
-      "()Z");
+      "()Ljava/lang/Boolean;", false);
   android_network_state_tracker_monitor_current_state_ =
       android_network_state_tracker_monitor_current_state;
 
   JNI_UTIL::JavaMethod android_network_state_tracker_monitor_add_listener(
-      env, get_android_network_state_tracker_monitor(env), "isLanConnected",
-      "()Z");
+      env, get_android_network_state_tracker_monitor(env), "addListener",
+      "()V", false);
   android_network_state_tracker_monitor_add_listener_ =
       android_network_state_tracker_monitor_add_listener;
 
   JNI_UTIL::JavaMethod android_network_state_tracker_monitor_remove_listener(
-      env, get_android_network_state_tracker_monitor(env), "isLanConnected",
-      "()Z");
+      env, get_android_network_state_tracker_monitor(env), "removeListener",
+      "()V", false);
   android_network_state_tracker_monitor_remove_listener_ =
       android_network_state_tracker_monitor_remove_listener;
 
@@ -138,6 +138,6 @@ JNIAndroidNetworkMonitor::GetCurrentConnection() {
 extern "C" JNIEXPORT void JNICALL
 Java_com_mgg_base_trackers_network_NetworkStateTrackerMonitor_onConstraintChanged(
     JNIEnv* env, jobject thiz, jint connection_type, jboolean is_connected) {
-  FOREVER::JNIAndroidNetworkMonitor::GetInstance()->NotifyNetworkChange(
-      FOREVER::NetworkMonitor::ConnectionType::kUnknown, is_connected);
+  /*FOREVER::JNIAndroidNetworkMonitor::GetInstance()->NotifyNetworkChange(
+      FOREVER::NetworkMonitor::ConnectionType::kUnknown, is_connected);*/
 }
