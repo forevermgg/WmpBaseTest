@@ -21,7 +21,7 @@ class NetworkMonitor {
     kNone = 6,  // No connection.
     kBluetooth = 7,
     k5G = 8,
-    kLast = k5G
+    kLast = 9
   };
 
   explicit NetworkMonitor(std::function<void(ConnectionType, bool)> callback) {
