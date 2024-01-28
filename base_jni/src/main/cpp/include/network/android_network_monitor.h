@@ -15,17 +15,17 @@ class AndroidNetworkMonitor : public NetworkMonitor {
    explicit AndroidNetworkMonitor(
             std::function<void(NetworkMonitor::ConnectionType, bool)> callback)
    : NetworkMonitor(callback) {
-     InitJNICall();
+     InitJNICallBack();
    }
 
    ~AndroidNetworkMonitor() override {
      callback_ = nullptr;
-     UnInitJNICall();
+     UnInitJNICallBack();
    }
 
-   bool InitJNICall();
+   bool InitJNICallBack();
 
-   bool UnInitJNICall();
+   bool UnInitJNICallBack();
 
    // Returns true if connected to an AP (Access Point), not necessarily
    // connected to the internet
@@ -33,6 +33,8 @@ class AndroidNetworkMonitor : public NetworkMonitor {
 
    // Returns the type of connection used currently to access the internet
    ConnectionType GetCurrentConnection() override;
+
+   void NotifyNetworkChange(ConnectionType connectionType, bool is_lan_connected) override;
 
  protected:
    std::function<void(ConnectionType, bool)> callback_;

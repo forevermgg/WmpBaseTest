@@ -54,6 +54,7 @@ add_library(${CMAKE_PROJECT_NAME} SHARED
         src/network/android_network_sharing_platform.cc
         src/network/connectivity_manager_impl.cc
         src/network/context_impl.cc
+        src/network/jni_android_network_monitor.cc
         src/path/Path.cpp
         src/string/string_conversion.cc
         src/thread/thread_local.cc

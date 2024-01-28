@@ -9,7 +9,7 @@
 #include "../memory/singleton_stdmutex.h"
 
 namespace FOREVER {
-class BuildInfo : public MEMORY::Singleton<BuildInfo>{
+class BuildInfo : public MEMORY::Singleton<BuildInfo> {
  public:
   BuildInfo(const BuildInfo&) = delete;
   BuildInfo& operator=(const BuildInfo&) = delete;
