@@ -133,4 +133,31 @@ static std::string current_abi() {
 #endif
 }
 
+std::string HardwareModelName() {
+  char device_model_str[PROP_VALUE_MAX];
+  __system_property_get("ro.product.model", device_model_str);
+  return std::string(device_model_str);
+}
+
+std::string OperatingSystemName() {
+   return "Android";
+}
+
+std::string GetAndroidBuildCodename() {
+  char os_version_codename_str[PROP_VALUE_MAX];
+  __system_property_get("ro.build.version.codename", os_version_codename_str);
+  return std::string(os_version_codename_str);
+}
+
+std::string GetAndroidBuildID() {
+  char os_build_id_str[PROP_VALUE_MAX];
+  __system_property_get("ro.build.id", os_build_id_str);
+  return std::string(os_build_id_str);
+}
+
+std::string GetAndroidHardwareEGL() {
+  char os_hardware_egl_str[PROP_VALUE_MAX];
+  __system_property_get("ro.hardware.egl", os_hardware_egl_str);
+  return std::string(os_hardware_egl_str);
+}
 }  // namespace FOREVER
