@@ -54,12 +54,14 @@ add_library(${CMAKE_PROJECT_NAME} SHARED
         src/network/connectivity_manager_impl.cc
         src/network/context_impl.cc
         src/path/Path.cpp
+        src/path/paths.cc
         src/string/string_conversion.cc
         src/thread/thread_local.cc
         src/thread/ThreadUtils.cpp
         src/utils/architecture.cpp
         src/utils/CountDownLatch.cpp
-        src/utils/CyclicBarrier.cpp)
+        src/utils/CyclicBarrier.cpp
+        src/utils/unique_fd.cc)
 
 # Specifies libraries CMake should link to your target library. You
 # can link libraries from various origins, such as libraries defined in this
