@@ -17,6 +17,10 @@ class NetworkStateTrackerMonitor constructor(application: Application) : Constra
         return networkStateTracker.state
     }
 
+    fun isLanConnected(): Boolean {
+        return networkStateTracker.state.isConnected
+    }
+
     fun addListener(): Boolean {
         networkStateTracker.addListener(this)
         return true

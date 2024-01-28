@@ -2,8 +2,9 @@
 #ifndef ANDROID_UTILS_H_
 #define ANDROID_UTILS_H_
 
-#include <string>
 #include <jni.h>
+
+#include <string>
 
 namespace FOREVER {
 

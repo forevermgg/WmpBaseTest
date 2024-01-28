@@ -35,7 +35,11 @@ class JNIAndroidNetworkMonitor : public MEMORY::Singleton<JNIAndroidNetworkMonit
 
 private:
    std::function<void(NetworkMonitor::ConnectionType, bool)> callback_;
-   JNI_UTIL::JavaGlobalWeakRef m_android_network_state_tracker_monitor_weak_ref;
+   JNI_UTIL::JavaGlobalWeakRef m_android_network_state_tracker_monitor_weak_ref_;
+   JNI_UTIL::JavaMethod android_network_state_tracker_monitor_constructor_;
+   JNI_UTIL::JavaMethod android_network_state_tracker_monitor_current_state_;
+   JNI_UTIL::JavaMethod android_network_state_tracker_monitor_add_listener_;
+   JNI_UTIL::JavaMethod android_network_state_tracker_monitor_remove_listener_;
 };
 }  // namespace FOREVER
 

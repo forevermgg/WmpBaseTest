@@ -19,10 +19,32 @@ JNIAndroidNetworkMonitor::JNIAndroidNetworkMonitor() {
   if (env->ExceptionCheck()) {
     return;
   }
-  static JNI_UTIL::JavaMethod android_network_state_tracker_monitor_constructor(
+
+  JNI_UTIL::JavaMethod android_network_state_tracker_monitor_constructor(
       env, get_android_network_state_tracker_monitor(env), "init",
       "(Landroid/app/Application;)V", false);
-  if (!m_android_network_state_tracker_monitor_weak_ref) {
+  android_network_state_tracker_monitor_constructor_ =
+      android_network_state_tracker_monitor_constructor;
+
+  JNI_UTIL::JavaMethod android_network_state_tracker_monitor_current_state(
+      env, get_android_network_state_tracker_monitor(env), "isLanConnected",
+      "()Z");
+  android_network_state_tracker_monitor_current_state_ =
+      android_network_state_tracker_monitor_current_state;
+
+  JNI_UTIL::JavaMethod android_network_state_tracker_monitor_add_listener(
+      env, get_android_network_state_tracker_monitor(env), "isLanConnected",
+      "()Z");
+  android_network_state_tracker_monitor_add_listener_ =
+      android_network_state_tracker_monitor_add_listener;
+
+  JNI_UTIL::JavaMethod android_network_state_tracker_monitor_remove_listener(
+      env, get_android_network_state_tracker_monitor(env), "isLanConnected",
+      "()Z");
+  android_network_state_tracker_monitor_remove_listener_ =
+      android_network_state_tracker_monitor_remove_listener;
+
+  if (!m_android_network_state_tracker_monitor_weak_ref_) {
     jobject application = nullptr;
     jclass activity_thread_clz = env->FindClass("android/app/ActivityThread");
     if (activity_thread_clz != nullptr) {
@@ -41,14 +63,35 @@ JNIAndroidNetworkMonitor::JNIAndroidNetworkMonitor() {
     }
     jobject android_network_state_tracker_monitor_object = env->NewObject(
         get_android_network_state_tracker_monitor(env),
-        android_network_state_tracker_monitor_constructor, application);
-    m_android_network_state_tracker_monitor_weak_ref =
+        android_network_state_tracker_monitor_constructor_, application);
+    m_android_network_state_tracker_monitor_weak_ref_ =
         JNI_UTIL::JavaGlobalWeakRef(
             env, android_network_state_tracker_monitor_object);
   }
+  if (m_android_network_state_tracker_monitor_weak_ref_ &&
+      android_network_state_tracker_monitor_add_listener_) {
+    m_android_network_state_tracker_monitor_weak_ref_.call_with_local_ref(
+        env, [&](JNIEnv*, jobject obj) {
+          env->CallVoidMethod(
+              obj, android_network_state_tracker_monitor_add_listener_);
+        });
+  }
 }
 
-JNIAndroidNetworkMonitor::~JNIAndroidNetworkMonitor() noexcept {}
+JNIAndroidNetworkMonitor::~JNIAndroidNetworkMonitor() noexcept {
+  auto env = FOREVER::JNI_UTIL::JniUtils::get_env();
+  if (env->ExceptionCheck()) {
+    return;
+  }
+  if (m_android_network_state_tracker_monitor_weak_ref_ &&
+      android_network_state_tracker_monitor_remove_listener_) {
+    m_android_network_state_tracker_monitor_weak_ref_.call_with_local_ref(
+        env, [&](JNIEnv*, jobject obj) {
+          env->CallVoidMethod(
+              obj, android_network_state_tracker_monitor_remove_listener_);
+        });
+  }
+}
 // static
 JNIAndroidNetworkMonitor* JNIAndroidNetworkMonitor::GetInstance() {
   return Singleton<JNIAndroidNetworkMonitor>::GetInstance();
