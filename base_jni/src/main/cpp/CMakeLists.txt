@@ -54,7 +54,6 @@ add_library(${CMAKE_PROJECT_NAME} SHARED
         src/network/connectivity_manager_impl.cc
         src/network/context_impl.cc
         src/path/Path.cpp
-        src/path/paths.cc
         src/string/string_conversion.cc
         src/thread/thread_local.cc
         src/thread/ThreadUtils.cpp
