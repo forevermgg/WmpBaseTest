@@ -33,7 +33,9 @@ NetworkMonitor::ConnectionType AndroidNetworkMonitor::GetCurrentConnection() {
 
 void AndroidNetworkMonitor::NotifyNetworkChange(
     NetworkMonitor::ConnectionType connectionType, bool is_lan_connected) {
-  callback_(connectionType, is_lan_connected);
+  if (callback_) {
+    callback_(connectionType, is_lan_connected);
+  }
 }
 
 }  // namespace FOREVER

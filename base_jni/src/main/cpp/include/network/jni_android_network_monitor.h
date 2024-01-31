@@ -13,6 +13,9 @@
 #include "jni/java_method.hpp"
 #include "jni/java_class.hpp"
 #include "jni/java_global_weak_ref.hpp"
+#include "log/log_level.h"
+#include "log/log_settings.h"
+#include "log/logging.h"
 
 namespace FOREVER {
 

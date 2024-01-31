@@ -7,6 +7,9 @@
 #include <utility>
 #include "network_monitor.h"
 #include "fake_network_monitor.h"
+#include "log/log_level.h"
+#include "log/log_settings.h"
+#include "log/logging.h"
 
 namespace FOREVER {
 
@@ -16,11 +19,13 @@ class AndroidNetworkMonitor : public NetworkMonitor {
             std::function<void(NetworkMonitor::ConnectionType, bool)> callback)
    : NetworkMonitor(callback) {
      InitJNICallBack();
+     FOREVER_LOG(ERROR) << "AndroidNetworkMonitor";
    }
 
    ~AndroidNetworkMonitor() override {
      callback_ = nullptr;
      UnInitJNICallBack();
+     FOREVER_LOG(ERROR) << "~AndroidNetworkMonitor";
    }
 
    bool InitJNICallBack();
@@ -37,7 +42,6 @@ class AndroidNetworkMonitor : public NetworkMonitor {
    void NotifyNetworkChange(ConnectionType connectionType, bool is_lan_connected) override;
 
  protected:
-   std::function<void(ConnectionType, bool)> callback_;
 };
 }  // namespace FOREVER
 
