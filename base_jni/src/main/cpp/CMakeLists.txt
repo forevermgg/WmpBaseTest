@@ -57,6 +57,7 @@ add_library(${CMAKE_PROJECT_NAME} SHARED
         src/network/context_impl.cc
         src/network/jni_android_network_monitor.cc
         src/path/Path.cpp
+        src/stacktrace/stacktrace.cc
         src/string/string_conversion.cc
         src/thread/thread_local.cc
         src/thread/ThreadUtils.cpp

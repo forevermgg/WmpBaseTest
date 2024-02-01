@@ -1,4 +1,5 @@
 #include <jni.h>
+#include <cstdlib>
 #include "log/log_settings.h"
 #include "log/log_level.h"
 #include "log/logging.h"
@@ -6,6 +7,12 @@
 #include "jni/jni_utils.hpp"
 #include "jni/jni_util.h"
 #include "jni/java_class_global_def.hpp"
+#include "src/stacktrace/stacktrace.h"
+
+void atExitHandler() {
+  FOREVER::STACKTRACE::StackTrace stacktrace;
+  FOREVER_LOG(ERROR) <<  "Dumping stack:\n" + stacktrace.GetSymbolString() + "\n";
+}
 
 // This is called by the VM when the shared library is first loaded.
 JNIEXPORT jint JNI_OnLoad(JavaVM* vm, void* reserved) {
@@ -21,6 +28,7 @@ JNIEXPORT jint JNI_OnLoad(JavaVM* vm, void* reserved) {
     FOREVER::JNI_UTIL::JniUtils::initialize(vm, JNI_VERSION_1_6);
     FOREVER::_IMPL::JavaClassGlobalDef::initialize(env);
   }
+  std::atexit(atExitHandler);
   return JNI_VERSION_1_6;
 }
 
