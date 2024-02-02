@@ -101,12 +101,11 @@ void JNIAndroidNetworkMonitor::UnInit() {
 }
 
 void JNIAndroidNetworkMonitor::SetNetworkChangeListener(
-    std::function<void(NetworkMonitor::ConnectionType, bool)> callback) {
+    std::function<void(ConnectionType, bool)> callback) {
   this->callback_ = callback;
 }
 
-void JNIAndroidNetworkMonitor::NotifyNetworkChange(
-    NetworkMonitor::ConnectionType connectionType, bool is_lan_connected) {
+void JNIAndroidNetworkMonitor::NotifyNetworkChange(ConnectionType connectionType, bool is_lan_connected) {
   FOREVER_LOG(ERROR) << "NotifyNetworkChange()";
   if (callback_ != nullptr) {
     callback_(connectionType, is_lan_connected);
@@ -129,13 +128,12 @@ bool JNIAndroidNetworkMonitor::IsLanConnected() {
   return false;
 }
 
-NetworkMonitor::ConnectionType
-JNIAndroidNetworkMonitor::GetCurrentConnection() {
+ConnectionType JNIAndroidNetworkMonitor::GetCurrentConnection() {
   auto env = FOREVER::JNI_UTIL::JniUtils::get_env();
   if (env->ExceptionCheck()) {
-    return NetworkMonitor::ConnectionType::kUnknown;
+    return ConnectionType::kUnknown;
   }
-  return NetworkMonitor::ConnectionType::kUnknown;
+  return ConnectionType::kUnknown;
 }
 }  // namespace FOREVER
 
@@ -143,7 +141,6 @@ extern "C" JNIEXPORT void JNICALL
 Java_com_mgg_base_trackers_network_NetworkStateTrackerMonitor_onConstraintChanged(
     JNIEnv* env, jobject thiz, jint connection_type, jboolean is_connected) {
   if (FOREVER::JNIAndroidNetworkMonitor::GetInstance()->Inited()) {
-    FOREVER::JNIAndroidNetworkMonitor::GetInstance()->NotifyNetworkChange(
-        FOREVER::NetworkMonitor::ConnectionType::kUnknown, is_connected);
+    FOREVER::JNIAndroidNetworkMonitor::GetInstance()->NotifyNetworkChange(FOREVER::ConnectionType::kUnknown, is_connected);
   }
 }

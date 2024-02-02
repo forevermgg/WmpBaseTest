@@ -15,7 +15,7 @@ namespace FOREVER {
 class AndroidNetworkMonitor : public NetworkMonitor {
  public:
    explicit AndroidNetworkMonitor(
-            std::function<void(NetworkMonitor::ConnectionType, bool)> callback)
+            std::function<void(ConnectionType, bool)> callback)
    : NetworkMonitor(callback) {
      InitJNICallBack();
      FOREVER_LOG(ERROR) << "AndroidNetworkMonitor";

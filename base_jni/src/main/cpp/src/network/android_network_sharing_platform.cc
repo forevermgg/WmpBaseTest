@@ -7,7 +7,7 @@ AndroidNetWorkSharingPlatform::~AndroidNetWorkSharingPlatform() {}
 
 std::unique_ptr<NetworkMonitor>
 AndroidNetWorkSharingPlatform::CreateNetworkMonitor(
-    std::function<void(FOREVER::NetworkMonitor::ConnectionType, bool)>
+    std::function<void(FOREVER::ConnectionType, bool)>
         callback) {
   return std::make_unique<AndroidNetworkMonitor>(std::move(callback));
 }

@@ -29,17 +29,17 @@ class JNIAndroidNetworkMonitor : public MEMORY::Singleton<JNIAndroidNetworkMonit
 
    void UnInit();
 
-   void SetNetworkChangeListener(std::function<void(NetworkMonitor::ConnectionType, bool)> callback);
+   void SetNetworkChangeListener(std::function<void(ConnectionType, bool)> callback);
 
-   void NotifyNetworkChange(NetworkMonitor::ConnectionType connectionType, bool is_lan_connected);
+   void NotifyNetworkChange(ConnectionType connectionType, bool is_lan_connected);
 
    bool IsLanConnected();
 
    // Returns the type of connection used currently to access the internet
-   NetworkMonitor::ConnectionType GetCurrentConnection();
+   ConnectionType GetCurrentConnection();
 
 private:
-   std::function<void(NetworkMonitor::ConnectionType, bool)> callback_;
+   std::function<void(ConnectionType, bool)> callback_;
    JNI_UTIL::JavaGlobalWeakRef m_android_network_state_tracker_monitor_weak_ref_;
    JNI_UTIL::JavaMethod android_network_state_tracker_monitor_constructor_;
    JNI_UTIL::JavaMethod android_network_state_tracker_monitor_current_state_;

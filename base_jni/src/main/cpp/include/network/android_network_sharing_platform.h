@@ -14,7 +14,7 @@ class AndroidNetWorkSharingPlatform : public SHARING::NetWorkSharingPlatform {
    ~AndroidNetWorkSharingPlatform() override;
 
    std::unique_ptr<NetworkMonitor> CreateNetworkMonitor(
-           std::function<void(FOREVER::NetworkMonitor::ConnectionType, bool)> callback) override;
+           std::function<void(FOREVER::ConnectionType, bool)> callback) override;
    };
 }  // namespace FOREVER
 

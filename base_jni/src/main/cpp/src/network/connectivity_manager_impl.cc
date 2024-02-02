@@ -14,7 +14,6 @@
 namespace FOREVER {
 namespace {
 using FOREVER::SHARING::NetWorkSharingPlatform;
-using ConnectionType = ConnectivityManager::ConnectionType;
 
 std::string GetConnectionTypeString(ConnectionType connection_type) {
   switch (connection_type) {
@@ -42,7 +41,7 @@ std::string GetConnectionTypeString(ConnectionType connection_type) {
 ConnectivityManagerImpl::ConnectivityManagerImpl(
     NetWorkSharingPlatform& platform) {
   network_monitor_ = platform.CreateNetworkMonitor(
-      [this](NetworkMonitor::ConnectionType connection_type,
+      [this](ConnectionType connection_type,
              bool is_lan_connected) {
         ConnectionType new_connection_type =
             static_cast<ConnectionType>(connection_type);

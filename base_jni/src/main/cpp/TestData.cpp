@@ -17,7 +17,7 @@ TestData::~TestData() {
 
 void TestData::TestExec() {
   context_->GetConnectivityManager()->RegisterConnectionListener(
-            "mgg", [](FOREVER::ConnectivityManager::ConnectionType type,
+            "mgg", [](FOREVER::ConnectionType type,
                    bool is_lan_connected) {
   });
 }
