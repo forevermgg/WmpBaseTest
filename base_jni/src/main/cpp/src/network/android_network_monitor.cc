@@ -22,14 +22,11 @@ bool AndroidNetworkMonitor::UnInitJNICallBack() {
 }
 
 bool AndroidNetworkMonitor::IsLanConnected() {
-  // 实现连接到AP的逻辑
-  // ...
+  JNIAndroidNetworkMonitor::GetInstance()->IsLanConnected();
   return true;
 }
 
 NetworkMonitor::ConnectionType AndroidNetworkMonitor::GetCurrentConnection() {
-  // 实现获取当前网络连接类型的逻辑
-  // ...
   return NetworkMonitor::ConnectionType::kEthernet;
 }
 
