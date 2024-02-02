@@ -28,7 +28,7 @@ JNIEXPORT jint JNI_OnLoad(JavaVM* vm, void* reserved) {
     FOREVER::JNI_UTIL::JniUtils::initialize(vm, JNI_VERSION_1_6);
     FOREVER::_IMPL::JavaClassGlobalDef::initialize(env);
   }
-  std::atexit(atExitHandler);
+  // std::atexit(atExitHandler);
   return JNI_VERSION_1_6;
 }
 

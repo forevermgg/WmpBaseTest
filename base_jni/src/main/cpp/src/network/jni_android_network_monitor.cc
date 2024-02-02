@@ -109,6 +109,7 @@ void JNIAndroidNetworkMonitor::NotifyNetworkChange(ConnectionType connectionType
   FOREVER_LOG(ERROR) << "NotifyNetworkChange()";
   if (callback_ != nullptr) {
     callback_(connectionType, is_lan_connected);
+    std::exit(0);
   }
 }
 
