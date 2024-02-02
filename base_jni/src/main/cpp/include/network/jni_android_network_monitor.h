@@ -20,12 +20,11 @@
 namespace FOREVER {
 
 class JNIAndroidNetworkMonitor : public MEMORY::Singleton<JNIAndroidNetworkMonitor> {
+  friend class Singleton<JNIAndroidNetworkMonitor>;
  public:
    explicit JNIAndroidNetworkMonitor();
 
    ~JNIAndroidNetworkMonitor() noexcept;
-
-   static JNIAndroidNetworkMonitor* GetInstance();
 
    void SetNetworkChangeListener(std::function<void(NetworkMonitor::ConnectionType, bool)> callback);
 

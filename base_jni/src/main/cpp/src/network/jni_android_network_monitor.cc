@@ -5,7 +5,6 @@
 #include "android/android_utils.h"
 #include "network/android_network_monitor.h"
 
-static bool init_flag = false;
 namespace FOREVER {
 static JNI_UTIL::JavaClass& get_android_network_state_tracker_monitor(
     JNIEnv* env) {
@@ -77,12 +76,10 @@ JNIAndroidNetworkMonitor::JNIAndroidNetworkMonitor() {
               obj, android_network_state_tracker_monitor_add_listener_);
         });
   }
-  init_flag = true;
 }
 
 JNIAndroidNetworkMonitor::~JNIAndroidNetworkMonitor() noexcept {
   FOREVER_LOG(ERROR) << "~JNIAndroidNetworkMonitor()";
-  init_flag = false;
   auto env = FOREVER::JNI_UTIL::JniUtils::get_env();
   if (env->ExceptionCheck()) {
     return;
@@ -95,10 +92,6 @@ JNIAndroidNetworkMonitor::~JNIAndroidNetworkMonitor() noexcept {
               obj, android_network_state_tracker_monitor_remove_listener_);
         });
   }
-}
-// static
-JNIAndroidNetworkMonitor* JNIAndroidNetworkMonitor::GetInstance() {
-  return Singleton<JNIAndroidNetworkMonitor>::GetInstance();
 }
 
 void JNIAndroidNetworkMonitor::SetNetworkChangeListener(
@@ -143,8 +136,7 @@ JNIAndroidNetworkMonitor::GetCurrentConnection() {
 extern "C" JNIEXPORT void JNICALL
 Java_com_mgg_base_trackers_network_NetworkStateTrackerMonitor_onConstraintChanged(
     JNIEnv* env, jobject thiz, jint connection_type, jboolean is_connected) {
-  if (init_flag)  {
-    FOREVER::JNIAndroidNetworkMonitor::GetInstance()->NotifyNetworkChange(
-            FOREVER::NetworkMonitor::ConnectionType::kUnknown, is_connected);
-  }
+  // if (FOREVER::JNIAndroidNetworkMonitor::GetInstance()->Inited()) {
+    FOREVER::JNIAndroidNetworkMonitor::GetInstance()->NotifyNetworkChange(FOREVER::NetworkMonitor::ConnectionType::kUnknown, is_connected);
+  // }
 }
