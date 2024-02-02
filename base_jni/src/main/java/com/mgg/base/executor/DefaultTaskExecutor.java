@@ -27,7 +27,7 @@ import java.util.concurrent.Executors;
  */
 public class DefaultTaskExecutor extends TaskExecutor {
     private final Object mLock = new Object();
-    private ExecutorService mDiskIO = Executors.newFixedThreadPool(2);
+    private final ExecutorService mDiskIO = Executors.newFixedThreadPool(2);
 
     private volatile Handler mMainHandler;
 

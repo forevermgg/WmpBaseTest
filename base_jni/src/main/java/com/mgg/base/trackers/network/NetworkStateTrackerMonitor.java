@@ -9,9 +9,10 @@ import com.mgg.base.trackers.ConstraintListener;
 import com.mgg.base.trackers.ConstraintTracker;
 
 public class NetworkStateTrackerMonitor implements ConstraintListener<NetworkState> {
-    private Application mApplication;
+    private final Application mApplication;
 
     private final ConstraintTracker<NetworkState> networkStateTracker;
+
     public NetworkStateTrackerMonitor(Application application) {
         mApplication = application;
         networkStateTracker = NetworkStateTracker(application, ArchTaskExecutor.getInstance());
@@ -25,7 +26,7 @@ public class NetworkStateTrackerMonitor implements ConstraintListener<NetworkSta
         return networkStateTracker.getState().isConnected();
     }
 
-    public void addListener()  {
+    public void addListener() {
         networkStateTracker.addListener(this);
     }
 

@@ -7,8 +7,8 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 import android.util.Log
-import com.mgg.base.executor.TaskExecutor
 import androidx.core.net.ConnectivityManagerCompat
+import com.mgg.base.executor.TaskExecutor
 import com.mgg.base.trackers.BroadcastReceiverConstraintTracker
 
 class NetworkStateTrackerPre24(context: Context, taskExecutor: TaskExecutor) :

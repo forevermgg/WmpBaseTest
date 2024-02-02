@@ -7,8 +7,8 @@ import android.net.NetworkCapabilities
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
-import com.mgg.base.executor.TaskExecutor
 import androidx.core.net.ConnectivityManagerCompat
+import com.mgg.base.executor.TaskExecutor
 import com.mgg.base.trackers.ConstraintTracker
 
 @RequiresApi(Build.VERSION_CODES.N)
