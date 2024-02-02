@@ -7,7 +7,7 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 import android.util.Log
-import androidx.arch.core.executor.TaskExecutor
+import com.mgg.base.executor.TaskExecutor
 import androidx.core.net.ConnectivityManagerCompat
 import com.mgg.base.trackers.BroadcastReceiverConstraintTracker
 

@@ -3,7 +3,7 @@ package com.mgg.base.trackers
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
-import androidx.arch.core.executor.TaskExecutor
+import com.mgg.base.executor.TaskExecutor
 
 /**
  * A base for tracking constraints and notifying listeners of changes.

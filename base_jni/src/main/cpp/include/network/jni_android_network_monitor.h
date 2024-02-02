@@ -23,7 +23,7 @@ class JNIAndroidNetworkMonitor : public MEMORY::Singleton<JNIAndroidNetworkMonit
  public:
    explicit JNIAndroidNetworkMonitor();
 
-   ~JNIAndroidNetworkMonitor();
+   ~JNIAndroidNetworkMonitor() noexcept;
 
    static JNIAndroidNetworkMonitor* GetInstance();
 

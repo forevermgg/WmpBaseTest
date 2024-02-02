@@ -1,7 +1,7 @@
 package com.mgg.base.trackers
 
 import android.content.Context
-import androidx.arch.core.executor.TaskExecutor
+import com.mgg.base.executor.TaskExecutor
 import com.mgg.base.trackers.battery.BatteryChargingTracker
 import com.mgg.base.trackers.battery.BatteryNotLowTracker
 import com.mgg.base.trackers.network.NetworkState

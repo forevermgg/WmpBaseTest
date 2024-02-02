@@ -2,7 +2,7 @@ package com.mgg.base.trackers.network
 
 import android.content.Context
 import android.os.Build
-import androidx.arch.core.executor.TaskExecutor
+import com.mgg.base.executor.TaskExecutor
 import com.mgg.base.trackers.ConstraintTracker
 
 /**

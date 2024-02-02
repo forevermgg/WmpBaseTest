@@ -4,6 +4,7 @@ import static com.mgg.base.trackers.network.NetworkStateTrackerKt.NetworkStateTr
 
 import android.app.Application;
 
+import com.mgg.base.executor.ArchTaskExecutor;
 import com.mgg.base.trackers.ConstraintListener;
 import com.mgg.base.trackers.ConstraintTracker;
 

@@ -5,7 +5,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.util.Log
 import androidx.annotation.RestrictTo
-import androidx.arch.core.executor.TaskExecutor
+import com.mgg.base.executor.TaskExecutor
 import com.mgg.base.trackers.BroadcastReceiverConstraintTracker
 
 /**

@@ -8,7 +8,7 @@ import android.os.BatteryManager.BATTERY_STATUS_CHARGING
 import android.os.BatteryManager.BATTERY_STATUS_FULL
 import android.os.Build
 import android.util.Log
-import androidx.arch.core.executor.TaskExecutor
+import com.mgg.base.executor.TaskExecutor
 import com.mgg.base.trackers.BroadcastReceiverConstraintTracker
 
 /**
