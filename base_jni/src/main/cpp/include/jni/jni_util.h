@@ -6,7 +6,7 @@
 #include <optional>
 #include <vector>
 
-#include "../macros.h"
+#include "macros/macros.h"
 #include "scoped_java_ref.h"
 
 namespace FOREVER {
