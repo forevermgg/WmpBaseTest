@@ -6,7 +6,6 @@
 #include <string>
 #include <utility>
 #include "network_monitor.h"
-#include "fake_network_monitor.h"
 #include "log/log_level.h"
 #include "log/log_settings.h"
 #include "log/logging.h"

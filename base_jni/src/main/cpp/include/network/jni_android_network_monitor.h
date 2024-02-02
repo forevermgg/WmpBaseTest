@@ -6,7 +6,6 @@
 #include <string>
 #include <utility>
 #include "network_monitor.h"
-#include "fake_network_monitor.h"
 #include "memory/singleton_stdmutex.h"
 #include "network_monitor.h"
 #include "jni/jni_utils.hpp"
