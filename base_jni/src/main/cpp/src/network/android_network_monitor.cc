@@ -27,7 +27,7 @@ bool AndroidNetworkMonitor::IsLanConnected() {
 }
 
 ConnectionType AndroidNetworkMonitor::GetCurrentConnection() {
-  return ConnectionType::kEthernet;
+  return JNIAndroidNetworkMonitor::GetInstance()->GetCurrentConnection();
 }
 
 void AndroidNetworkMonitor::NotifyNetworkChange(ConnectionType connectionType, bool is_lan_connected) {
