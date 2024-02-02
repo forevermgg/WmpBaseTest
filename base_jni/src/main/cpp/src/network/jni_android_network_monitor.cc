@@ -15,6 +15,13 @@ static JNI_UTIL::JavaClass& get_android_network_state_tracker_monitor(
 
 JNIAndroidNetworkMonitor::JNIAndroidNetworkMonitor() {
   FOREVER_LOG(ERROR) << "JNIAndroidNetworkMonitor";
+}
+
+JNIAndroidNetworkMonitor::~JNIAndroidNetworkMonitor() noexcept {
+  FOREVER_LOG(ERROR) << "~JNIAndroidNetworkMonitor()";
+}
+
+void JNIAndroidNetworkMonitor::Init() {
   auto env = FOREVER::JNI_UTIL::JniUtils::get_env();
   if (env->ExceptionCheck()) {
     return;
@@ -33,8 +40,8 @@ JNIAndroidNetworkMonitor::JNIAndroidNetworkMonitor() {
       android_network_state_tracker_monitor_current_state;
 
   JNI_UTIL::JavaMethod android_network_state_tracker_monitor_add_listener(
-      env, get_android_network_state_tracker_monitor(env), "addListener",
-      "()V", false);
+      env, get_android_network_state_tracker_monitor(env), "addListener", "()V",
+      false);
   android_network_state_tracker_monitor_add_listener_ =
       android_network_state_tracker_monitor_add_listener;
 
@@ -78,8 +85,7 @@ JNIAndroidNetworkMonitor::JNIAndroidNetworkMonitor() {
   }
 }
 
-JNIAndroidNetworkMonitor::~JNIAndroidNetworkMonitor() noexcept {
-  FOREVER_LOG(ERROR) << "~JNIAndroidNetworkMonitor()";
+void JNIAndroidNetworkMonitor::UnInit() {
   auto env = FOREVER::JNI_UTIL::JniUtils::get_env();
   if (env->ExceptionCheck()) {
     return;
@@ -136,7 +142,8 @@ JNIAndroidNetworkMonitor::GetCurrentConnection() {
 extern "C" JNIEXPORT void JNICALL
 Java_com_mgg_base_trackers_network_NetworkStateTrackerMonitor_onConstraintChanged(
     JNIEnv* env, jobject thiz, jint connection_type, jboolean is_connected) {
-  // if (FOREVER::JNIAndroidNetworkMonitor::GetInstance()->Inited()) {
-    FOREVER::JNIAndroidNetworkMonitor::GetInstance()->NotifyNetworkChange(FOREVER::NetworkMonitor::ConnectionType::kUnknown, is_connected);
-  // }
+  if (FOREVER::JNIAndroidNetworkMonitor::GetInstance()->Inited()) {
+    FOREVER::JNIAndroidNetworkMonitor::GetInstance()->NotifyNetworkChange(
+        FOREVER::NetworkMonitor::ConnectionType::kUnknown, is_connected);
+  }
 }

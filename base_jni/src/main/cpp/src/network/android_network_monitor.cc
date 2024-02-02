@@ -6,6 +6,7 @@
 
 namespace FOREVER {
 bool AndroidNetworkMonitor::InitJNICallBack() {
+  JNIAndroidNetworkMonitor::GetInstance()->Init();
   JNIAndroidNetworkMonitor::GetInstance()->SetNetworkChangeListener(
       [this](NetworkMonitor::ConnectionType connection_type,
              bool is_lan_connected) {
@@ -16,6 +17,7 @@ bool AndroidNetworkMonitor::InitJNICallBack() {
 
 bool AndroidNetworkMonitor::UnInitJNICallBack() {
   JNIAndroidNetworkMonitor::GetInstance()->SetNetworkChangeListener(nullptr);
+  JNIAndroidNetworkMonitor::GetInstance()->UnInit();
   return true;
 }
 

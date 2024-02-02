@@ -3,7 +3,7 @@
 #define MEMORY_SINGLETON_STDMUTEX_H_
 
 #include <mutex>
-
+#include <atomic>
 #include "macros/macros.h"
 
 namespace FOREVER {
@@ -11,37 +11,60 @@ namespace MEMORY {
 
 template <class T>
 class Singleton {
+public:
+  friend T;
+
  public:
   Singleton() {}
   virtual ~Singleton() {}
 
   static T* GetInstance() {
-    if (once_init_) {
-      singleton_mutex_.lock();
-      if (once_init_) {
-        Init();
-        once_init_ = false;
+    T* p = instance_.load(std::memory_order_acquire);
+    std::atomic_thread_fence(std::memory_order_acquire);//获取内存fence
+    if (p == nullptr) { // 1st check
+      std::lock_guard<std::mutex> lock(singleton_mutex_);
+      p = instance_.load(std::memory_order_acquire);
+      if (p == nullptr) { // 2nd (double) check
+        p = new T;
+        std::atomic_thread_fence(std::memory_order_release);
+        instance_.store(p, std::memory_order_relaxed);
       }
-      singleton_mutex_.unlock();
     }
-    return instance_;
+    return p;
+  }
+
+  static void Destroy() {
+    std::lock_guard<std::mutex> lock(singleton_mutex_);
+    if (instance_ != nullptr) {
+      delete instance_.exchange(nullptr, std::memory_order_relaxed);
+    }
+  }
+
+  static bool Inited() {
+    std::lock_guard<std::mutex> lock(singleton_mutex_);
+    T* p = instance_.load(std::memory_order_acquire);
+    std::atomic_thread_fence(std::memory_order_acquire);//获取内存fence
+    if (p == nullptr) {
+      std::atomic_thread_fence(std::memory_order_release);
+      return false;
+    } else {
+      std::atomic_thread_fence(std::memory_order_release);
+      return true;
+    }
   }
 
  private:
   FOREVER_DISALLOW_COPY_AND_ASSIGN(Singleton);
-  static void Init() {
-    instance_ = new T();
-  }
 
-  static T* instance_;  // Leaky singleton.
+  static std::atomic<T*> instance_;
   static std::mutex singleton_mutex_;
-  static bool once_init_;
 };
 
-template <class T> T* Singleton<T>::instance_;
-template <class T> std::mutex Singleton<T>::singleton_mutex_;
-template <class T> bool Singleton<T>::once_init_ = true;
+template <class T>
+std::atomic<T*> Singleton<T>::instance_ = nullptr;
 
+template <class T>
+std::mutex Singleton<T>::singleton_mutex_;
 }  // namespace MEMORY
 }  // namespace FOREVER
 

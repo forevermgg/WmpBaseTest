@@ -26,6 +26,10 @@ class JNIAndroidNetworkMonitor : public MEMORY::Singleton<JNIAndroidNetworkMonit
 
    ~JNIAndroidNetworkMonitor() noexcept;
 
+   void Init();
+
+   void UnInit();
+
    void SetNetworkChangeListener(std::function<void(NetworkMonitor::ConnectionType, bool)> callback);
 
    void NotifyNetworkChange(NetworkMonitor::ConnectionType connectionType, bool is_lan_connected);
