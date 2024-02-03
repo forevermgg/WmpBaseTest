@@ -8,6 +8,8 @@
 #include "jni/jni_util.h"
 #include "jni/java_class_global_def.hpp"
 #include "src/stacktrace/stacktrace.h"
+#include "memory/singleton_stdmutex.h"
+#include "network/jni_android_network_monitor.h"
 
 void atExitHandler() {
   FOREVER::STACKTRACE::StackTrace stacktrace;
@@ -40,5 +42,8 @@ extern "C" JNIEXPORT void JNI_OnUnload(JavaVM* vm, void*) {
     FOREVER::JNI::Release();
     FOREVER::JNI_UTIL::JniUtils::release();
     FOREVER::_IMPL::JavaClassGlobalDef::release();
+    if (FOREVER::JNIAndroidNetworkMonitor::GetInstance()->Inited()) {
+      FOREVER::JNIAndroidNetworkMonitor::GetInstance()->Destroy();
+    }
   }
 }
